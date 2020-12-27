@@ -1,0 +1,22 @@
+meta(name='description', content='Home page')
+meta(charset='utf-8')
+meta(http-equiv='X-UA-Compatible', content='IE=edge')
+meta(name='viewport', content='width=device-width, initial-scale=1')
+link(href="/public/style.css", rel="stylesheet")
+
+body
+    h1 tic tac toe tournament 
+
+    if showRegistration
+      h2.center Please Enter a unique nickname
+
+      form(action='/register', method='post').center
+        div
+          
+          input#nickname(type='text', name='username')
+        div
+
+          input#passwordField(type='password', name='password')
+          <script>document.getElementById("passwordField").value = "defaultPass"</script>
+        div
+          input#register_button(type='submit', value='Register' )

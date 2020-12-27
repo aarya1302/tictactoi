@@ -1,0 +1,107 @@
+#game{
+    width: 500px;
+    height: 500px;
+    display: grid;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    grid-gap: 10px;
+    margin: auto;
+    padding:10px;
+    border-radius: 10px;
+}.gameSquare{
+    background-color:#a6a2a2 ;
+    border-radius: 20px;
+    color: white;
+    display: flex;
+    font-size: 70px;
+    justify-content: center;
+    align-items: center;
+  
+}body{
+    font-family: arial;
+    text-align: center;
+    
+}.pageHead{
+    padding: 20px;
+}#room{
+    margin: 40px;
+    font-size: 20px;
+    color: grey;
+}.gameWrapper{
+    margin:50px;
+}a{ 
+
+    text-decoration: none;
+    color: black;
+    border:1px solid black;
+    padding: 20px;
+    border-radius: 10px;
+    margin:20px;
+}a:hover{
+    background: #349ceb;
+    color:white;
+    border:0px;
+}#players{
+    display: flex;
+    width:100%;
+    background: black;
+    border-radius: 10px;
+}#player1{
+    border-radius: 10px 0px 0px 10px;
+    float: left;
+    padding: 20px;
+    background-color: #a6a2a2;
+    width: 50%;
+    color: white;
+    font-weight: 800;
+}#player2{
+    float:right;
+    color: white;
+    background-color: #349ceb;
+    padding: 20px;
+    width: 50%;
+    font-weight: 800;
+    border-radius: 0px 10px 10px 0px;
+}.userType{
+    font-size: 20px;
+    font-weight: 800;
+    margin-right: 30px;
+}#nickname{
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid black;
+    width: 60vw;  
+    text-align: center; 
+}#register_button{
+    padding: 10px;
+    border-radius: 10px;
+    border: 0px;
+    color: white;
+    background-color: #349ceb;
+    font-size: 15px;
+}#passwordField{
+    visibility: hidden;
+
+}#buttons{
+    display:flex;
+}#whoTurn{
+    padding: 0px;
+    font-size: 20px;
+    color:#a6a2a2;
+    margin-top: 30px;
+}.points{
+    
+    float: right;
+}#peoples{
+    margin: 20px 20px 20px 0px;    
+}.person{
+    display:flex;
+    width: 100vw;
+    background-color: #349ceb;
+    font-weight: 800;
+    padding: 20px;
+    margin-bottom: 10px;
+    color: white;
+
+}#buttons{
+    margin-top:30px;
+}
