@@ -30,8 +30,8 @@ var ifWin=(board) =>{
                 returnVal = true;
                 return true
             }
-        }else if(board[0][2] === board[1][1]&& board[0][2]=== board[2][1]){
-            if(board[0][2]){
+        }else if(board[0][2] === board[1][1]&& board[0][2]=== board[2][0]){
+            if(board[0][2] !== ""){
                 returnVal = true;
                 return true
             }
@@ -54,6 +54,7 @@ var ifDraw = (board) =>{
 
 $(document).ready(function(){
     let socket = io();
+    
     var handleFinish = (user, room) =>{
         console.log("handling finsh");
         console.log("user deets", user);
@@ -83,15 +84,24 @@ $(document).ready(function(){
         $("#message").html("")
         var orderInUsernames = []
         $("#logout").attr("href", "/logout/"+data.username);
+        $("#logout").click(async ()=>{
+            console.log("sending stuff to app.js")
+            await socket.emit("remove user from lounge", data.username);
+            return true;
+        })
         var socketId = data.socketId
         console.log("gote messages")
         console.log(data)
        
         
-        console.log(orderInUsernames)
+        console.log(data.array, "this is data.array")
+            if(data.array.length > 1){
+                console.log(data.array, "this is data.array")
+            
+        }
         data.array.forEach(elem =>{
-            $("#peoples").append(`<div class='person'>${elem.user.username} <span class='points'>points: ${elem.user.points}</span></div>`)
-            orderInUsernames.push(elem.socketId);
+            $("#peoples").append(`<div class='person'>${elem.user.username}<span class='points' style='float:right'> ${elem.user.points}</span></div>`)
+            orderInUsernames.push(elem.user.username);
         })
         var myVar = setInterval(myTimer, 1000);
         var count = 60;
@@ -108,71 +118,76 @@ $(document).ready(function(){
                     console.log(socket.id)
                     console.log(socketId)
                     console.log(orderInUsernames, "this should be the array of ids before done")
+                    $("#clock").html(`Semi Finals starts: ${Math.round((data.timeline.semi_finals.startTime -date.getTime())/1000)}`)
                     if(data.timeline.semi_finals.startTime < date.getTime()){
+                        $("#clock").html("")
                         clearInterval(myVar)
-                        
+                        socket.emit("get username");
+                         socket.on("message to lounge", (data)=>{
+                            console.log(data, "this should be client's username")
+                            console.log(orderInUsernames, "this is orderInUsernames")
+                            console.log(orderInUsernames.indexOf(data), "this is index of the username")
+                            if(orderInUsernames.indexOf(data)>5){
+                                $("#message").html("Sorry you didn't qualify for the semifinals")
+                                
+                                
+                            }else{
+                                $("#message").html("Congrats you qualifed for the semifinals")
+                                $("#continueLounge").html("<a href='/game'>Continue</a>")
+                                $("#continueLounge").click(async function(){
+                                    await socket.emit("go to next level", data);
+                                    return true;
+                                })
+                            }
+                        })
                         console.log(orderInUsernames, "this should be the array of ids after done")
                         console.log(data.username, "this should be the username of the client")
-                        if(orderInUsernames.indexOf(socket.id)>5){
-                            $("#message").html("Sorry you didn't qualify for the semifinals")
-                            $("#continueLounge").html(`<a href='/logout/'+${data.username}> Click Here to logout</a>`)
-                        }else{
-                            $("#message").html("Congrats you qualifed for the semifinals")
-                            $("#continueLounge").html("<a href='/game'>Continue</a>")
-                            $("#continueLounge").click(async function(){
-                                await socket.emit("go to next level", data.username);
-                                return true;
-                            })
-                        }
                         
                     }
                     }else if (data.level == "finals"){
                         console.log(data.timeline.finals.startTime, "start", date.getTime(), "now", (data.timeline.finals.startTime > date.getTime()), "condition met")
                         console.log(orderInUsernames, "array of user names in correct order");
                         console.log(data.username, "username of of person connected")
+                        $("#clock").html(`Finals starts: ${Math.round((data.timeline.finals.startTime -date.getTime())/1000)}`)
+
                         if(data.timeline.finals.startTime < date.getTime()){
-                            
-                            var indexOfClient = orderInUsernames.indexOf(socket.id);
-                            console.log(indexOfClient, "this is the index of the client")
-                            if(orderInUsernames.indexOf(socket.id)>1){
+                            socket.emit("get username");
+                            $("#clock").html("")
+                            socket.on("message to lounge", (data)=>{
+                            console.log(data, "this should be client's username")
+                            console.log(orderInUsernames, "this is orderInUsernames")
+                            console.log(orderInUsernames.indexOf(data), "this is index of the username")
+                            if(orderInUsernames.indexOf(data)>1){
                                 $("#message").html("Sorry you didn't qualify for the finals")
-                                $("#continueLounge").html(`<a href='/logout/'+${data.loungeUsers[indexOfClient].username}> Click Here to logout</a>`)
+                               
+                                
                             }else{
-                                $("#message").html("Congrats you qualifed for the finals")
-               
+                                $("#message").html("Congrats you qualifed for the Finals")
                                 $("#continueLounge").html("<a href='/game'>Continue</a>")
                                 $("#continueLounge").click(async function(){
-                                    await socket.emit("go to next level", data.username);
+                                    await socket.emit("go to next level", data);
                                     return true;
                                 })
                             }
+                            })
+                        
                             clearInterval(myVar)
-                        }   
-                    }else{
-                       
-                        $("#peoples").html(`<h3>${orderInUsernames[0]} won the Tournament!!!</h3>`)
-                        clearInterval(myVar)    
+                          
+                
                     }
-          
-        }
-            /* var myVar = setInterval(myFuncUpdate, 1000);
-        var myFuncUpdate = () =>{
-            console.log("upadating every 10s")
-            
-        var date = new Date
-        console.log(data.timeline.semi_finals.startTime, "start", date.getTime(), "now", (orderInUsernames.indexOf(socket.request.user.username)>5), "condition met")
-        if(data.timline.semi_finals.startTime < date.getTime()){
-            if(orderInUsernames.indexOf(socket.request.user.username)>5){
-                $("#message").html("Sorry you didn't qualify for the semifinals")
-                $("#continueLounge").html(`<a href='/logout/'+${socket.request.user.username}> Click Here to go to semi finals</a>`)
-            }else{
-                $("#message").html("Congrats you qualifed for the semifinals")
-                socket.emit("go to semiFinals", elem.username)
-                $("#continueLounge").html("<a href='/game'>Continue</a>")
-            }
-        }
-    } */
-    })
+                }else{
+                        
+                        $("#peoples").html(`<h3>${orderInUsernames[0]} won the Tournament!!!</h3>`)
+                        if(data.timeline.finals.endTime < date.getTime()){
+                        socket.emit("reset server")
+                        clearInterval(myVar)
+                    }    
+                    }
+                }
+            })
+                
+        
+   
     
     socket.on("logout", function(data){
         console.log("here but")
@@ -187,17 +202,22 @@ $(document).ready(function(){
         $("#players").html("")
         var count = 0;
         console.log(data)
-        data.players.users.forEach(elem=>{
-            if(socket.id === elem.socketId){
+        if(data.players.users.length > 1){data.players.users.forEach(elem=>{
+            
+            {if(socket.id === elem.socketId){
                 thisPlayer=elem;
             }else{
                 opponent = elem;
             }
             count++
-            console.log(elem.userDetails.points)
-            $("#players").append(`<div id="player${count}"><span class="userType">${elem.userType}</span> ${elem.userDetails.username}<span class="points">${elem.userDetails.points}</span></div>`)
             
-        })
+            if(elem.userDetails){
+                $("#players").append(`<div id="player${count}"><span class="userType">${elem.userType}</span> ${elem.userDetails.username}<span class="points">${elem.userDetails.points}</span></div>`)
+            }else{
+                $("#players").append(`<div id="player${count}" class="waiting"><span class="userType"></span> waiting for opponent<span class="points"></span></div>`)
+            }
+            }
+        })}
         $("#logout").attr("href", "/logout/"+thisPlayer.userDetails.username);
         console.log($("#logout"))
        console.log("begining", thisPlayer)

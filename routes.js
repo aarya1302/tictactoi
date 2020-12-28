@@ -4,10 +4,12 @@ const myDB = require('./db');
 require("dotenv").config({path:"secrets.env"})
 const session = require('express-session');
 const passport = require('passport');
-const ObjectID = require('mongodb').ObjectID;
+const ObjectID = require('mongodb').ObjectID; 
 const tournamentTimeline = require("./gameTimeline")
 
 module.exports = function(app, collection){
+  var message = "";
+  var level_stage= "qualifying";
     app.route('/register')
   .post((req, res, next) => {
     console.log("got req")
@@ -17,6 +19,7 @@ module.exports = function(app, collection){
         next(err);
       } else if (user) {
         console.log('already have user')
+        message = "Nickname already in database. Please pick a new one"
         res.redirect('/');
       } else if(tournamentTimeline.register.endTime > date.getTime()) {
         
@@ -40,6 +43,7 @@ module.exports = function(app, collection){
           }
         )
       }else if (tournamentTimeline.register.endTime < date.getTime()){
+        message = "sorry tournament already started please try again later."
         res.redirect("/")
       }
     })
@@ -53,11 +57,20 @@ module.exports = function(app, collection){
     
     //rendering index.pug
     app.get("/", (req, res)=>{
+      
+      var date = new Date();
+      if(message !== ""){
+        messageDisplay="block";
+      }else{
+        messageDisplay="none";
+      }
         res.render(process.cwd()+"/views/pug/index.pug", {
             title: "Connected to Database",
-            message: "Please enter Nickname", 
+            message: message,
+            messageDisplay:messageDisplay, 
             showRegistration: true
         })
+        message=""
     })
 
     function ensureAuthenticated(req, res, next) {
@@ -75,7 +88,7 @@ module.exports = function(app, collection){
       
     //rendering route to profile
     app.get("/game", ensureAuthenticated,(req, res)=>{
-        res.render(process.cwd()+'/views/pug/game.pug', {username:req.user.username})
+        res.render(process.cwd()+'/views/pug/game.pug', {username:req.user.username, stage:level_stage})
     })
     var usersInLounge = []
     app.get("/lounge/:username", ensureAuthenticated, (req, res)=>{
@@ -98,6 +111,7 @@ module.exports = function(app, collection){
           console.log(doc)
           if(doc.level)
            { level = newLevel(doc.level)
+            level_stage = level;
             console.log(level)
             collection.findOneAndUpdate({username:req.params.username}, {$set:{level:level}}, (err, document)=>{
               if(err){
@@ -106,6 +120,7 @@ module.exports = function(app, collection){
                 console.log("here about to render lounge")
                 collection.findOne({username: req.params.username}, (err, updatedDoc)=>{
                   res.render(process.cwd() +"/views/pug/lounge.pug", {level:updatedDoc.level})
+                  
                 })
             }
             })}

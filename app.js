@@ -23,9 +23,9 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
 var date = new Date();
-var registrationMin = 4;
-var qualifyingMin = 5;
-var semiFinalsMin = 5;
+var registrationMin = 1;
+var qualifyingMin = 1;
+var semiFinalsMin = 1;
 
 tournamentTimeline.register.startTime = date.getTime();
 tournamentTimeline.register.endTime = tournamentTimeline.register.startTime + (1000*60*registrationMin);
@@ -126,7 +126,7 @@ myDB (async (client)=>{
     io.on("connection", socket=>{
 
         console.log("new connection")
-           
+     
         if(socket.request.user.logged_in){
             socket.on("go to next level", (data)=>{
                 count++;
@@ -143,21 +143,40 @@ myDB (async (client)=>{
                 console.log(typeof(socket.request.user.gamePlayed), "gamplayed")
             if(socket.request.user.gamePlayed>=2){
                 
+            
+        socket.on("remove user from lounge", (data)=>{
+            console.log("got remove user form lounge req");
+            loungeUserArray.forEach(elem =>{
+            
+                if(elem.user.username === data){
+                    console.log(elem.user.username, "this is elem username");
+                    console.log(data, "this is the username sent")
+                    var index = loungeUserArray.indexOf(elem);
+                    console.log("this is index of to be removed", index);
+                    loungeUserArray.splice(index, 1);
+                    console.log(loungeUserArray, "this is loungeUserArray after removal")
+                }
+            })
+            io.emit("update lounge",{array:loungeUserArray, timeline:tournamentTimeline,socketId: socket.id, username:socket.request.user.username, level:socket.request.user.level})
+        })
                 io.emit("update lounge", {array:loungeUserArray, timeline:tournamentTimeline,socketId: socket.id, username:socket.request.user.username, level:socket.request.user.level})
+                socket.join(socket.id);
+                console.log(socket.id, "this is socket.id")
+                console.log(io.sockets.adapter.rooms)
+                socket.on('get username', ()=>{
+                    console.log('got get username request')
+                    console.log("sending this to lounge users", socket.request.user.username)
+                    io.to(socket.id).emit("message to lounge", socket.request.user.username)
+                        
+                })
                 console.log(loungeUserArray, "this was sent as lounge user array")
               
-              
-       /*  socket.on("new loungeUser", (data)=>{
-            console.log("being sent stuff")
-            loungeUserObj[data.user._id] = data.user._id;
-            loungeUserArray.push(data.user).sort(compare);
-            console.log("lounge obj", loungeUserObj, "lounge array", loungeUserArray)
-        }) */
+             
     }else{
         siftRooms(rooms);
         
         
-
+        console.log("entering game room");
 
         var disconnectAdjustments = (room, userOrder) => {
             console.log(userOrder)
@@ -228,6 +247,7 @@ myDB (async (client)=>{
             }) */
         })
         
+        
         socket.on("finished game", (data)=>{
             console.log("finished GAME")
      
@@ -259,10 +279,27 @@ myDB (async (client)=>{
                     }
                     return comparison;
                 }
+                var alreadyAdded = () =>{
+                    var state = false;
+
                     
-                loungeUserArray.push({user:data.user.userDetails, socketId:socket.id})
-                loungeUserArray.sort(compare)
-                
+                    loungeUserArray.forEach(elem =>{
+                        console.log(elem, "this is elem during test");
+                    console.log(data.user, "this is data user");
+                        
+                    if(elem.user.username){
+                        if(elem.user.username === data.user.userDetails.username){
+                            state = true;
+                        }
+                    }
+                    })
+                    return state;
+                }
+                if(!(alreadyAdded())){
+                    loungeUserArray.push({user:data.user.userDetails, socketId:socket.id})
+                    loungeUserArray.sort(compare)
+                 
+                }
                 
                 console.log(loungeUserArray, "lounge obj and array")
             }
@@ -280,6 +317,7 @@ myDB (async (client)=>{
                 }
             }) */
         })
+        
         socket.on("made move", (data)=>{
             console.log("made move")
             console.log(data.room)

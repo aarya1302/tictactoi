@@ -3,7 +3,8 @@ link(href="/public/style.css", rel="stylesheet")
 <script src='/socket.io/socket.io.js'></script>
 script(async, defer, src='/public/client.js')
 h1 #{level}
-div#demo
+
+div#clock
 div#peoples
 div#buttons
         a#logout(href=`/logout/${username}`) Logout
