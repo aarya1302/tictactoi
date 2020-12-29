@@ -59,7 +59,7 @@ $(document).ready(function(){
         console.log("handling finsh");
         console.log("user deets", user);
         console.log("room", room)
-        var req = (user.userDetails.gamePlayed <2)?"game":"lounge/"+user.userDetails.username
+        var req = (user.userDetails.gamePlayed <6)?"game":"lounge/"+user.userDetails.username
         console.log(req, 'this req will be sent')
         //socket.emit("new loungeUser", user.userDetails);
         $("#next").html("<a href='/"+req+"'id='next_game'>Next Game</a>")
@@ -86,7 +86,6 @@ $(document).ready(function(){
         $("#logout").attr("href", "/logout/"+data.username);
         $("#logout").click(async ()=>{
             console.log("sending stuff to app.js")
-            await socket.emit("remove user from lounge", data.username);
             return true;
         })
         var socketId = data.socketId
@@ -100,7 +99,7 @@ $(document).ready(function(){
             
         }
         data.array.forEach(elem =>{
-            $("#peoples").append(`<div class='person'>${elem.user.username}<span class='points' style='float:right'> ${elem.user.points}</span></div>`)
+            $("#peoples").append(`<div class='person'><div class="nameLounge">${elem.user.username}</div><div class="pointsLounge"> ${elem.user.points}</div></div>`)
             orderInUsernames.push(elem.user.username);
         })
         var myVar = setInterval(myTimer, 1000);
@@ -130,16 +129,20 @@ $(document).ready(function(){
                             if(orderInUsernames.indexOf(data)>5){
                                 $("#message").html("Sorry you didn't qualify for the semifinals")
                                 
-                                
+                                orderInUsernames=[]
+                            
                             }else{
                                 $("#message").html("Congrats you qualifed for the semifinals")
                                 $("#continueLounge").html("<a href='/game'>Continue</a>")
                                 $("#continueLounge").click(async function(){
+                                    $("peoples").html("")
                                     await socket.emit("go to next level", data);
                                     return true;
                                 })
+                                orderInUsernames=[];
                             }
                         })
+                      
                         console.log(orderInUsernames, "this should be the array of ids after done")
                         console.log(data.username, "this should be the username of the client")
                         
@@ -172,28 +175,27 @@ $(document).ready(function(){
                             })
                         
                             clearInterval(myVar)
-                          
+                            $("peoples").html("")
                 
                     }
                 }else{
-                        
-                        $("#peoples").html(`<h3>${orderInUsernames[0]} won the Tournament!!!</h3>`)
-                        if(data.timeline.finals.endTime < date.getTime()){
-                        socket.emit("reset server")
-                        clearInterval(myVar)
-                    }    
+
+                    if(data.timeline.finals.endTime > date.getTime()){
+                         $("#clock").html(`Winner will be announced in: ${Math.round((data.timeline.finals.endTime -date.getTime())/1000)}`)
+                    }else{
+                        $("#clock").html("")
+                         $("#loungeHeader").html(`<h3>${orderInUsernames[0]} won the Tournament!!!</h3>`)
+                         clearInterval(myVar)
+                         socket.emit("reset server")
+                         $("peoples").html("")
                     }
+                }
                 }
             })
                 
         
    
     
-    socket.on("logout", function(data){
-        console.log("here but")
-        window.location.replace("http://localhost:3300/");
-    })
-
 
     socket.on("entered room", function(data){
         console.log(data.room)
@@ -234,11 +236,13 @@ $(document).ready(function(){
         })
         $(".gameSquare").click( function(e){
             console.log(thisPlayer.userTurn)
+            if(data.players.status !== "waiting"){
                 if(thisPlayer.userTurn){
 
                     console.log("allowed to click")
                     var id = e.target.id;
-                    $("#"+id).removeClass(".gameSquare");
+                    if($(this).text() === ""){ 
+                     $("#"+id).removeClass(".gameSquare");
                     var boardDimensions= id.split("_").map(elem => parseInt(elem))
                     var board_level = boardDimensions[0]-1;
                     var boardItem = boardDimensions[1] - 1;
@@ -268,9 +272,9 @@ $(document).ready(function(){
                         handleFinish(thisPlayer, data.room)
                     }
                     socket.emit("made move", {divId:id, room:data.room, socketId:socket.id})
-                }
+               } }
                 
-            })
+}            })
             
         
     });
@@ -319,6 +323,10 @@ $(document).ready(function(){
             $("#players").html("")
             var count = 0;
             console.log(data)
+            let board = [["", "", ""], 
+             ["", "", ""], 
+             ["", "", ""]];
+             $(".gameSquare").html("")
             data.players.users.forEach(elem=>{
                 console.log(socket.id)
                 if(socket.id === elem.socketId){
@@ -327,7 +335,7 @@ $(document).ready(function(){
                     opponent = elem;
             }
                 if(elem.userDetails){
-                    $("#players").append(`<div id="player${count}"><span class="userType">${elem.userType}</span> ${elem.userDetails.username}</div>`)
+                    $("#players").append(`<div id="player${count+1}"><span class="userType">${elem.userType}</span> ${elem.userDetails.username}</div>`)
                 }
                 
             

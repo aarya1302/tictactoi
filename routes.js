@@ -7,11 +7,27 @@ const passport = require('passport');
 const ObjectID = require('mongodb').ObjectID; 
 const tournamentTimeline = require("./gameTimeline")
 
+var registrationMin = 8;
+var qualifyingMin = 8;
+var semiFinalsMin = 8;
+var setTimeline =()=>{
+    var date = new Date();
+    tournamentTimeline.register.startTime = date.getTime();
+    tournamentTimeline.register.endTime = tournamentTimeline.register.startTime + (1000*60*registrationMin);
+    tournamentTimeline.qualifying.startTime = date.getTime();
+    tournamentTimeline.qualifying.endTime = tournamentTimeline.qualifying.startTime + (1000*60*qualifyingMin);
+    tournamentTimeline.semi_finals.startTime = tournamentTimeline.qualifying.endTime
+    tournamentTimeline.semi_finals.endTime = tournamentTimeline.semi_finals.startTime +(1000*60*semiFinalsMin);
+    tournamentTimeline.finals.startTime = tournamentTimeline.semi_finals.endTime +(1000*60*1);
+    tournamentTimeline.finals.endTime = tournamentTimeline.finals.startTime +(1000*60*1);
+}
+
 module.exports = function(app, collection){
   var message = "";
   var level_stage= "qualifying";
     app.route('/register')
   .post((req, res, next) => {
+    level_stage = "qualifying"
     console.log("got req")
     var date = new Date
     collection.findOne({ username: req.body.username }, function(err, user) {
@@ -42,9 +58,30 @@ module.exports = function(app, collection){
             }
           }
         )
-      }else if (tournamentTimeline.register.endTime < date.getTime()){
+      }else if (tournamentTimeline.register.endTime < date.getTime()&& tournamentTimeline.finals.endTime > date.getTime()){
         message = "sorry tournament already started please try again later."
         res.redirect("/")
+      }else if(tournamentTimeline.finals.endTime < date.getTime()){
+        setTimeline();
+        collection.insertOne({
+          username: req.body.username,
+          password: req.body.password,
+          userLoggedIn:0,
+          points: 0,
+          gamePlayed: 0, 
+          level:"qualifying"
+        },
+          (err, doc) => {
+            if (err) {
+              res.redirect('/');
+            } else {
+              // The inserted document is held within
+              // the ops property of the doc
+              console.log(doc.ops[0])
+              next(null, doc.ops[0]);
+            }
+          }
+        )
       }
     })
   },

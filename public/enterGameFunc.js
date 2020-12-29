@@ -6,12 +6,20 @@ $(document).ready(function(){
             $("message_regis").css("display", "none")
         
     })
-    /* $("#register_button").click(function(e){
+    /*  $("#register_button").click(function(e){
+        var validationRegex = /(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
         var input = document.getElementById("nickname").value;
-        console.log(input.match("/^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/"))
-        $("form").submit((e)=>{
-            e.preventDefault();
-        })
-        return true;
-    }) */
+        console.log(validationRegex.test(input))
+        $("#invalidDiv").html("")
+        if(!validationRegex.test(input)){
+            
+            $("#invalidDiv").append("Username invalid please do make sure that your username does not containe any special characters or spaces.")
+        }else{
+            $("form").submit(()=>{
+                return true;
+            })
+        }
+       
+        
+    }) */ 
 })

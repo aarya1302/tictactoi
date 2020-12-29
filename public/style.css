@@ -104,34 +104,21 @@ body{
 }.points{
     
     float: right;
-}#pointsLounge{
-    float: right;
 }
 #peoples{
     margin: 20px 20px 20px 0px;    
 }.person{
     display:flex;
-    width: 100vw;
+    width: 100%;
     background-color: #349ceb;
     font-weight: 800;
-    padding: 20px;
+    padding:10px 10px 10px 10px;
     margin-bottom: 10px;
     color: white;
 
 
 }#buttons{
     margin-top:30px;
-}#rules{
-    margin-bottom:10px;
-   text-align: justify;
-    
-    
-    padding: 0px 60px 10px 60px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    margin: auto;
-
 }#message_regis{
     background-color: #fc6666;
     color: white; 
@@ -145,16 +132,15 @@ body{
     
 }#about{
     background-color: #349ceb;
-    padding:10px;
     color: white;
     text-align: center;
+    margin:0px;
+    padding:10px 0px 10px 0px;
     width: 100%;
     border-radius: 10px;
-}#text_rules{
-    text-align: justify;
+}#rules{
     border-radius:20px;
-    padding:30px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin:20px;
     
 }#levels_game_rules{
     text-align: center;
@@ -204,44 +190,45 @@ body{
     font-weight: 800;
     color:#a6a2a2
 
+}.pointsLounge{
+   text-align:right;
+   width: 50%;
+}.nameLounge{
+    float: left;
+    width:50%;
+    text-align: left;
+}#loungeHeader{
+    color:#349ceb;
 }
 @media(max-width:900px){
     h1{color:#349ceb}
     #registrationWrapper{
         width: 100%;
-        padding: 10px 5px 10px 5px;
+        padding: 10px 0px 10px 0px;
         margin:0px;
         box-shadow: 0px 0px 0px 0px;
         border-radius: 0px;
+        background:white;
+        color:black;
     }#wrapper_logIn{
         width:100vw;
         margin:0px;
         padding:0px;
         height:auto;
+        background-color: white;
 
     }
     #main{
         align-items: flex-start;
         display: block;
         width: 100vw;
-
+        box-shadow: 0px 0px 0px 0px;
         padding:0px;
         margin: 20px 0px 0px 0px;
         
-        border-radius:30px;
-    }#nickname{
-        width: 70vw;;
-    }#rules{
-        border-radius: 0px;
-        border:0px;
-        margin:0px;
-    }#text_rules{
-        border:0px;
         border-radius:0px;
-        width:95vw;
-        margin:0px;
-        padding:20px;
-        box-shadow: 0px 0px 0px 0px;
+    }#nickname{
+        width: 70%;
     }h1{
         font-size: 25px;
     }#gameWrapper{
@@ -254,7 +241,15 @@ body{
     }#game{
         width: 300px;
         height: 300px;
-    }#about{
-        width:85vw;
+    }}#registrationForm{
+        background: white;
+        color: black;
+    }#register_button{
+        color:white;
+        background:#349ceb;
+        margin:10px;
+    }ol{
+        margin:0px;
+        padding:0px;
     }
 }

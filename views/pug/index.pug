@@ -5,6 +5,7 @@ meta(name='viewport', content='width=device-width, initial-scale=1')
 link(href="/public/style.css", rel="stylesheet")
 script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js', integrity='sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=', crossorigin='anonymous')
 script(src="/public/enterGameFunc.js")
+script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
 div#wrapper_logIn
   div#main
   
@@ -20,20 +21,20 @@ div#wrapper_logIn
           div
             
             input#nickname(type='text', name='username')
+            div#invalidDiv
           div
 
             input#passwordField(type='password', name='password')
             <script>document.getElementById("passwordField").value = "defaultPass"</script>
           div
             input#register_button(type='submit', value='Register' )
-    div#rules
-      div#text_rules
-        h3#about About Tournament
-        p Once you enter your nickname you will be matched with your opponent.There are 3 levels in this tournament:
-        span#levels_game_rules
-          ol
-            li Qualifying
-            li Semi Finals 
-            li Finals
-        p During the qualifying round you will be matched with random people and will play 6 rounds. If you are among the top 6 people you will qualify for the semi-finals. During that level you will play against the other 6 people who qualified and if you're among the top 2 you will play 6 other games against the other person in the finals. If you get the most points in this stage you'll win the tournament
+    div#rules.container
+      h3#about About Tournament
+      p Once you enter your nickname you will be matched with your opponent.There are 3 levels in this tournament:
+      span#levels_game_rules
+        ol
+          li Qualifying
+          li Semi Finals 
+          li Finals
+      p During the qualifying round you will be matched with random people and will play 6 rounds.<br/> If you are among the top 6 people you will qualify for the semi-finals. <br/>During the semi finals you will play against the other 6 people who qualified and if you're among the top 2 you will play 6 other games against the other person in the finals. If you get the most points in this stage you'll win the tournament
     

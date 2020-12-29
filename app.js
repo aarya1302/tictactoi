@@ -22,22 +22,24 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-var date = new Date();
-var registrationMin = 1;
-var qualifyingMin = 1;
-var semiFinalsMin = 1;
 
-tournamentTimeline.register.startTime = date.getTime();
-tournamentTimeline.register.endTime = tournamentTimeline.register.startTime + (1000*60*registrationMin);
-tournamentTimeline.qualifying.startTime = date.getTime();
-tournamentTimeline.qualifying.endTime = tournamentTimeline.qualifying.startTime + (1000*60*qualifyingMin);
-tournamentTimeline.semi_finals.startTime = tournamentTimeline.qualifying.endTime + (1000*60*1);
-tournamentTimeline.semi_finals.endTime = tournamentTimeline.semi_finals.startTime +(1000*60*semiFinalsMin);
-tournamentTimeline.finals.startTime = tournamentTimeline.semi_finals.endTime +(1000*60*2);
-tournamentTimeline.finals.endTime = tournamentTimeline.semi_finals.startTime +(1000*60*2);
+var registrationMin = 5;
+var qualifyingMin = 8;
+var semiFinalsMin = 8;
+var setTimeline =()=>{
+    var date = new Date();
+    tournamentTimeline.register.startTime = date.getTime();
+    tournamentTimeline.register.endTime = tournamentTimeline.register.startTime + (1000*60*registrationMin);
+    tournamentTimeline.qualifying.startTime = date.getTime();
+    tournamentTimeline.qualifying.endTime = tournamentTimeline.qualifying.startTime + (1000*60*qualifyingMin);
+    tournamentTimeline.semi_finals.startTime = tournamentTimeline.qualifying.endTime + (1000*60*1);
+    tournamentTimeline.semi_finals.endTime = tournamentTimeline.semi_finals.startTime +(1000*60*semiFinalsMin);
+    tournamentTimeline.finals.startTime = tournamentTimeline.semi_finals.endTime +(1000*60*3);
+    tournamentTimeline.finals.endTime = tournamentTimeline.finals.startTime +(1000*60*4);
+}
+ setTimeline();
 //console.log(tournamentTimeline)
 
-console.log("time", date.getTime())
 app.set('view engine', 'pug');
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use(express.json());
@@ -141,8 +143,13 @@ myDB (async (client)=>{
            
                 console.log(socket.request.user)
                 console.log(typeof(socket.request.user.gamePlayed), "gamplayed")
-            if(socket.request.user.gamePlayed>=2){
+            if(socket.request.user.gamePlayed>=6){
+                socket.on("reset server", ()=>{
+                    collection.deleteMany({})
+                    loungeUserArray = []
                 
+
+                })
             
         socket.on("remove user from lounge", (data)=>{
             console.log("got remove user form lounge req");
@@ -263,7 +270,7 @@ myDB (async (client)=>{
                     }
                 })
                 console.log(data.user.userDetails.gamePlayed, "number of game played")
-                if(data.user.userDetails.gamePlayed >= 2){
+                if(data.user.userDetails.gamePlayed >= 6){
                     
                     console.log("condition met")
                 function compare(a, b) {

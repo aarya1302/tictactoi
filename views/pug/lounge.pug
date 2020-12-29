@@ -2,9 +2,10 @@ script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js', 
 link(href="/public/style.css", rel="stylesheet")
 <script src='/socket.io/socket.io.js'></script>
 script(async, defer, src='/public/client.js')
-h1 #{level}
+
 
 div#clock
+h1#loungeHeader Scores
 div#peoples
 div#buttons
         a#logout(href=`/logout/${username}`) Logout
