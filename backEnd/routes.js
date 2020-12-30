@@ -23,7 +23,7 @@ var setTimeline =()=>{
 }
 
 module.exports = function(app, collection){
-  var _dirname = "/Users/aarya/Documents/GitHub/tictactoi/src/"
+  var _dirname = "/Users/aarya/Documents/GitHub/tictactoi/backEnd/src/"
   var message = "";
   var level_stage= "qualifying";
     app.route('/register')

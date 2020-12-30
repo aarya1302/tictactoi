@@ -39,7 +39,7 @@ var setTimeline =()=>{
 }
  setTimeline();
 //console.log(tournamentTimeline)
-var _dirname = "/Users/aarya/Documents/GitHub/tictactoi/src/"
+var _dirname = "/Users/aarya/Documents/GitHub/tictactoi/backEnd/src/"
 app.set('view engine', 'pug');
 app.use('/', express.static(_dirname));
 app.use(express.json());
