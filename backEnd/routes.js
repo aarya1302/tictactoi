@@ -23,7 +23,7 @@ var setTimeline =()=>{
 }
 
 module.exports = function(app, collection){
-  var _dir = "https://protected-brushlands-35484.herokuapp.com/"
+  var _dir = "https://protected-brushlands-35484.herokuapp.com"
   var message = "";
   var level_stage= "qualifying";
     app.route('/register')
@@ -102,7 +102,7 @@ module.exports = function(app, collection){
       }else{
         messageDisplay="none";
       }
-        res.render(_dir+"index.pug", {
+        res.render(_dir+"/index.pug", {
             title: "Connected to Database",
             message: message,
             messageDisplay:messageDisplay, 
