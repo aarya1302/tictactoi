@@ -23,7 +23,7 @@ var setTimeline =()=>{
 }
 
 module.exports = function(app, collection){
-  var _dir = "/Users/aarya/Documents/GitHub/tictactoi/frontEnd/"
+  var _dir = "https://protected-brushlands-35484.herokuapp.com/"
   var message = "";
   var level_stage= "qualifying";
     app.route('/register')
