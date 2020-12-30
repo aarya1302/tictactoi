@@ -5,14 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "install-client":"npm install",
+    "start": "node index.js",
+    "install-client": "npm install",
     "heroku-postbuild": "npm run install-client && npm run build"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "build": "^0.1.4",
     "connect-mongo": "^3.2.0",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
@@ -27,8 +28,7 @@
     "socket.io": "^3.0.4",
     "xmlhttprequest": "^1.8.0"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "engines": {
     "node": "14.15.0",
     "npm": "6.14.9"
