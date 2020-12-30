@@ -23,7 +23,7 @@ var setTimeline =()=>{
 }
 
 module.exports = function(app, collection){
-  var _dir = "tictactoi/frontEnd";
+  var _dir = "/Users/aarya/Documents/GitHub/tictactoi/frontEnd";
   var message = "";
   var level_stage= "qualifying";
     app.route(_dir + '/register')
@@ -102,7 +102,7 @@ module.exports = function(app, collection){
       }else{
         messageDisplay="none";
       }
-        res.render("index.pug", {
+        res.render("public/index.pug", {
             title: "Connected to Database",
             message: message,
             messageDisplay:messageDisplay, 
