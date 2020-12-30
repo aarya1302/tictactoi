@@ -31,9 +31,7 @@ module.exports = function(app, collection){
     level_stage = "qualifying"
     console.log("got req")
     var date = new Date
-    res.send("hello there")
-  })
-    /* collection.findOne({ username: req.body.username }, function(err, user) {
+    collection.findOne({ username: req.body.username }, function(err, user) {
       if (err) {
         next(err);
       } else if (user) {
@@ -93,7 +91,7 @@ module.exports = function(app, collection){
       req.session.id = req.user.id;
       res.redirect('/game');
     }
-  ); */
+  );
     
     //rendering index.pug
     app.get("/", (req, res)=>{
