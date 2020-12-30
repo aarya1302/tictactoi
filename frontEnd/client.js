@@ -1,6 +1,6 @@
 
 var port = 3000;
-var ip = "http://192.168.100.6:"
+var ip = "https://protected-brushlands-35484.herokuapp.com/"
 var room;
 var thisPlayer;
 var opponent;
@@ -74,7 +74,7 @@ $(document).ready(function(){
     }
     socket.on("redirect home", (data)=>{
         if(data.socketId === socket.id){
-            window.location.replace(ip+port+"/logout/"+data.dbId);
+            window.location.replace(ip+"logout/"+data.dbId);
         }
     })
     console.log(document.getElementById("peoples"))
