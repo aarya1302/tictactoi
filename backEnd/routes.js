@@ -23,10 +23,10 @@ var setTimeline =()=>{
 }
 
 module.exports = function(app, collection){
-  var _dir = "https://protected-brushlands-35484.herokuapp.com"
+  var _dir = "https://protected-brushlands-35484.herokuapp.com/"+process.env.PORT;
   var message = "";
   var level_stage= "qualifying";
-    app.route('https://protected-brushlands-35484.herokuapp.com/register')
+    app.route(_dir + '/register')
   .post((req, res, next) => {
     level_stage = "qualifying"
     console.log("got req")
