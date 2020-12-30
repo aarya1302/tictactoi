@@ -23,7 +23,7 @@ var setTimeline =()=>{
 }
 
 module.exports = function(app, collection){
-  var _dir = "https://protected-brushlands-35484.herokuapp.com/";
+  var _dir = "/frontEnd";
   var message = "";
   var level_stage= "qualifying";
     app.route(_dir + '/register')
