@@ -94,7 +94,7 @@ module.exports = function(app, collection){
   );
     
     //rendering index.pug
-    app.get("https://protected-brushlands-35484.herokuapp.com/", (req, res)=>{
+    app.get("https://zealous-engelbart-dee32c.netlify.app/", (req, res)=>{
       
       var date = new Date();
       if(message !== ""){
