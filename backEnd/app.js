@@ -41,7 +41,7 @@ var setTimeline =()=>{
 //console.log(tournamentTimeline)
 var _dirname = "/Users/aarya/Documents/GitHub/tictactoi/frontEnd"
 app.set('view engine', 'pug');
-app.use('/', express.static(_dirname));
+app.use('/', express.static(process.cwd()+"/public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
