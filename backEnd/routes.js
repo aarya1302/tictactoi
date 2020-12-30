@@ -23,7 +23,7 @@ var setTimeline =()=>{
 }
 
 module.exports = function(app, collection){
-  var _dir = "/frontEnd";
+  var _dir = "tictactoi/frontEnd";
   var message = "";
   var level_stage= "qualifying";
     app.route(_dir + '/register')
