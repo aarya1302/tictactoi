@@ -6,9 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "heroku-postbuild": "webpack --config webpack.prod.js",
     "build": "ng build",
-    "build:prod": "webpack --config webpack.prod.js"
+    "build:prod": "webpack --config webpack.prod.js", 
+    "heroku-postbuild": "ng build --prod"
   },
   "author": "",
   "license": "ISC",
