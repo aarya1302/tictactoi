@@ -23,7 +23,7 @@ var setTimeline =()=>{
 }
 
 module.exports = function(app, collection){
-  var _dir = "https://protected-brushlands-35484.herokuapp.com/"+process.env.PORT;
+  var _dir = "https://protected-brushlands-35484.herokuapp.com/";
   var message = "";
   var level_stage= "qualifying";
     app.route(_dir + '/register')
@@ -31,7 +31,9 @@ module.exports = function(app, collection){
     level_stage = "qualifying"
     console.log("got req")
     var date = new Date
-    collection.findOne({ username: req.body.username }, function(err, user) {
+    res.send("hello there")
+  })
+    /* collection.findOne({ username: req.body.username }, function(err, user) {
       if (err) {
         next(err);
       } else if (user) {
@@ -91,10 +93,10 @@ module.exports = function(app, collection){
       req.session.id = req.user.id;
       res.redirect('/game');
     }
-  );
+  ); */
     
     //rendering index.pug
-    app.get("https://zealous-engelbart-dee32c.netlify.app/", (req, res)=>{
+    app.get("/", (req, res)=>{
       
       var date = new Date();
       if(message !== ""){
