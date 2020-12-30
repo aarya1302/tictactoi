@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "build": "webpack",
+    "build": "webpack-dev-server --mode development --open",
     "build:prod": "webpack --config webpack.prod.js", 
     "heroku-postbuild": "ng build --prod"
   },
@@ -27,6 +27,11 @@
     "pug": "^3.0.0",
     "socket.io": "^3.0.4",
     "xmlhttprequest": "^1.8.0"
+  },
+  "devDependencies": {
+    "webpack":"5.11.1",
+    "webpack-cli":" 4.3.0",
+    "webpack-dev-server":"3.11.1"
   },
   "engines": {
     "node": "14.15.0",
