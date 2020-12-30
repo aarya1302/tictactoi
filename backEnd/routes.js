@@ -126,7 +126,7 @@ module.exports = function(app, collection){
       
     //rendering route to profile
     app.get("/game", ensureAuthenticated,(req, res)=>{
-        res.render(_dir +'/game.pug', {username:req.user.username, stage:level_stage})
+        res.render('/game.pug', {username:req.user.username, stage:level_stage})
     })
     var usersInLounge = []
     app.get("/lounge/:username", ensureAuthenticated, (req, res)=>{
@@ -157,7 +157,7 @@ module.exports = function(app, collection){
               }else{
                 console.log("here about to render lounge")
                 collection.findOne({username: req.params.username}, (err, updatedDoc)=>{
-                  res.render(_dir+"/lounge.pug", {level:updatedDoc.level})
+                  res.render("/lounge.pug", {level:updatedDoc.level})
                   
                 })
             }
