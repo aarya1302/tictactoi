@@ -102,7 +102,7 @@ module.exports = function(app, collection){
       }else{
         messageDisplay="none";
       }
-        res.render(__dirname+"index.pug", {
+        res.render(_dirname+"index.pug", {
             title: "Connected to Database",
             message: message,
             messageDisplay:messageDisplay, 
@@ -126,7 +126,7 @@ module.exports = function(app, collection){
       
     //rendering route to profile
     app.get("/game", ensureAuthenticated,(req, res)=>{
-        res.render(__dirname +'/game.pug', {username:req.user.username, stage:level_stage})
+        res.render(_dirname +'/game.pug', {username:req.user.username, stage:level_stage})
     })
     var usersInLounge = []
     app.get("/lounge/:username", ensureAuthenticated, (req, res)=>{
@@ -157,7 +157,7 @@ module.exports = function(app, collection){
               }else{
                 console.log("here about to render lounge")
                 collection.findOne({username: req.params.username}, (err, updatedDoc)=>{
-                  res.render(__dirname+"/lounge.pug", {level:updatedDoc.level})
+                  res.render(_dirname+"/lounge.pug", {level:updatedDoc.level})
                   
                 })
             }
