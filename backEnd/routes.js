@@ -102,7 +102,7 @@ module.exports = function(app, collection){
       }else{
         messageDisplay="none";
       }
-        res.render(_dir+"/index.pug", {
+        res.render("/index.pug", {
             title: "Connected to Database",
             message: message,
             messageDisplay:messageDisplay, 
