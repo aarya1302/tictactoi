@@ -23,7 +23,7 @@ var setTimeline =()=>{
 }
 
 module.exports = function(app, collection){
-  var _dir = "/Users/aarya/Documents/GitHub/tictactoi/frontEnd/src/"
+  var _dirname = "/Users/aarya/Documents/GitHub/tictactoi/src/"
   var message = "";
   var level_stage= "qualifying";
     app.route('/register')
@@ -102,7 +102,7 @@ module.exports = function(app, collection){
       }else{
         messageDisplay="none";
       }
-        res.render(_dir+"index.pug", {
+        res.render(__dirname+"index.pug", {
             title: "Connected to Database",
             message: message,
             messageDisplay:messageDisplay, 
@@ -126,7 +126,7 @@ module.exports = function(app, collection){
       
     //rendering route to profile
     app.get("/game", ensureAuthenticated,(req, res)=>{
-        res.render(_dir +'/game.pug', {username:req.user.username, stage:level_stage})
+        res.render(__dirname +'/game.pug', {username:req.user.username, stage:level_stage})
     })
     var usersInLounge = []
     app.get("/lounge/:username", ensureAuthenticated, (req, res)=>{
@@ -157,7 +157,7 @@ module.exports = function(app, collection){
               }else{
                 console.log("here about to render lounge")
                 collection.findOne({username: req.params.username}, (err, updatedDoc)=>{
-                  res.render(_dir+"/lounge.pug", {level:updatedDoc.level})
+                  res.render(__dirname+"/lounge.pug", {level:updatedDoc.level})
                   
                 })
             }

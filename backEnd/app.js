@@ -39,7 +39,7 @@ var setTimeline =()=>{
 }
  setTimeline();
 //console.log(tournamentTimeline)
-var _dirname = "/Users/aarya/Documents/GitHub/tictactoi/frontEnd"
+var _dirname = "/Users/aarya/Documents/GitHub/tictactoi/src/"
 app.set('view engine', 'pug');
 app.use('/', express.static(_dirname));
 app.use(express.json());
@@ -418,5 +418,5 @@ myDB (async (client)=>{
     accept(null, false);
   }
 http.listen(process.env.PORT||3000, function(){
-    console.log('port working')
+    console.log('port working' + process.env.PORT)
 })
