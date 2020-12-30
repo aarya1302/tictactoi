@@ -26,7 +26,7 @@ module.exports = function(app, collection){
   var _dir = "https://protected-brushlands-35484.herokuapp.com"
   var message = "";
   var level_stage= "qualifying";
-    app.route('/register')
+    app.route('https://protected-brushlands-35484.herokuapp.com/register')
   .post((req, res, next) => {
     level_stage = "qualifying"
     console.log("got req")
