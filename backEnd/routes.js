@@ -7,9 +7,9 @@ const passport = require('passport');
 const ObjectID = require('mongodb').ObjectID; 
 const tournamentTimeline = require("./gameTimeline")
 
-var registrationMin = 4;
-var qualifyingMin = 4;
-var semiFinalsMin = 4;
+var registrationMin = 2;
+var qualifyingMin = 2;
+var semiFinalsMin = 2;
 var setTimeline =()=>{
     var date = new Date();
     tournamentTimeline.register.startTime = date.getTime();
@@ -18,8 +18,8 @@ var setTimeline =()=>{
     tournamentTimeline.qualifying.endTime = tournamentTimeline.qualifying.startTime + (1000*60*qualifyingMin);
     tournamentTimeline.semi_finals.startTime = tournamentTimeline.qualifying.endTime
     tournamentTimeline.semi_finals.endTime = tournamentTimeline.semi_finals.startTime +(1000*60*semiFinalsMin);
-    tournamentTimeline.finals.startTime = tournamentTimeline.semi_finals.endTime +(1000*60*1);
-    tournamentTimeline.finals.endTime = tournamentTimeline.finals.startTime +(1000*60*1);
+    tournamentTimeline.finals.startTime = tournamentTimeline.semi_finals.endTime;
+    tournamentTimeline.finals.endTime = tournamentTimeline.finals.startTime +(1000*60*2);
 }
 
 module.exports = function(app, collection){

@@ -23,9 +23,9 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
 
-var registrationMin = 5;
-var qualifyingMin = 8;
-var semiFinalsMin = 8;
+var registrationMin = 2;
+var qualifyingMin = 2;
+var semiFinalsMin = 2;
 var setTimeline =()=>{
     var date = new Date();
     tournamentTimeline.register.startTime = date.getTime();
