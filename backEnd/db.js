@@ -3,7 +3,7 @@ const { MongoClient } = require('mongodb');
 
 async function main(callback) {
 
-    const URI = process.env.PORT
+    const URI = process.env.MONGO_URI;
     
     const client = new MongoClient(URI, { useNewUrlParser: true, useUnifiedTopology: true });
     

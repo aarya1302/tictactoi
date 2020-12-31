@@ -419,7 +419,6 @@ myDB (async (client)=>{
     accept(null, false);
   }
   var port = process.env.PORT||3000 
-http.listen(process.env.PORT||3000 , function(){
-    console.log("port working")
-    
+http.listen(process.env.PORT||3000, function(){
+    console.log('port working'+ port)
 })
