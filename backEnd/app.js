@@ -14,7 +14,7 @@ const cookieParser = require('cookie-parser');
 const roomsDb = require("./rooms");
 const rooms = require('./rooms');
 const MongoStore = require('connect-mongo')(session);
-const URI = "mongodb+srv://tictactoeSeverUser:tictactoe20@tictactoe.saept.mongodb.net/ticatctoe?retryWrites=true&w=majority";
+const URI = process.env.MONGO_URI;
 const store = new MongoStore({ url: URI });
 const tournamentTimeline = require("./gameTimeline")
 const app = express();
@@ -419,6 +419,6 @@ myDB (async (client)=>{
     accept(null, false);
   }
   var port = process.env.PORT||3000 
-http.listen(3000, function(){
+http.listen(port, function(){
     console.log('port working'+ port)
 })
