@@ -238,7 +238,7 @@ $(document).ready(function(){
             console.log(thisPlayer.userTurn)
             if(data.players.status !== "waiting"){
                 if(thisPlayer.userTurn){
-
+                    
                     console.log("allowed to click")
                     var id = e.target.id;
                     if($(this).text() === ""){ 
